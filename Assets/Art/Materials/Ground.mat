@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ground
-  m_Shader: {fileID: -6465566751694194690, guid: 5e08d6eb158257e4391df407debf957a, type: 3}
+  m_Shader: {fileID: 4800000, guid: 801a5fd6b1024b84e8f38cd0e2685128, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -91,6 +91,8 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FadeOffset: 0
+    - _FadeScale: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -101,6 +103,8 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
+    - _Sharpness: 10
+    - _Size: 0.2
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -110,11 +114,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - _BGColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
     - _BaseColor: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
     - _Color: {r: 0.15094337, g: 0.15094337, b: 0.15094337, a: 1}
     - _Color_A: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
     - _Color_B: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GridColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
