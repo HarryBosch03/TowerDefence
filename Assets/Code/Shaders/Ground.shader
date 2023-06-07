@@ -2,8 +2,8 @@ Shader "Unlit/Ground"
 {
     Properties
     {
-        _BGColor("Background Color", Color) = (0, 0, 0, 1)
         _GridColor("Grid Color", Color) = (1, 1, 1, 1)
+        _GridValue("Grid Brightness", float) = 0.1
         _Size("Grid Size", Range(0.0, 1.0)) = 1.0
         _Sharpness("Sharpness", float) = 50.0
         _FadeOffset("Distance Fade Offset", float) = 1.0
@@ -11,8 +11,9 @@ Shader "Unlit/Ground"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        
+        Tags { "RenderType"="Transparent" "Queue"="Transparent"}
+        Blend One One
+
         Pass
         {
             HLSLPROGRAM
@@ -33,8 +34,8 @@ Shader "Unlit/Ground"
                 float4 vertex : SV_POSITION;
                 float3 pos : VAR_POSITION;
             };
-            
-            Varyings vert (Attributes input)
+
+            Varyings vert(Attributes input)
             {
                 Varyings output;
                 output.pos = TransformObjectToWorld(input.vertex.xyz);
@@ -43,23 +44,37 @@ Shader "Unlit/Ground"
                 return output;
             }
 
-            float4 _BGColor, _GridColor;
+            float4 _GridColor;
 
             float _Size, _Sharpness;
             float _FadeOffset, _FadeScale;
-            
-            float4 frag (Varyings input) : SV_Target
+            float _GridValue;
+
+            float4 frag(Varyings input) : SV_Target
             {
-                float3 col = _BGColor.rgb;
-                float2 pos = input.pos.xz + 0.5;
+                float3 col = 0.0;
+                float2 pos = input.pos.xz;
                 float2 origin = round(pos);
                 float2 diff = pos - origin;
                 float d = 1 - saturate((length(diff) - (_Size / 1.414 - 1 / _Sharpness)) * _Sharpness);
-                
+
                 float dist = length(input.pos - _WorldSpaceCameraPos);
                 d *= clamp(dist * _FadeScale + _FadeOffset, 0.0, 1.0);
-                
-                col = lerp(col, _GridColor.rgb, d);
+
+                float3 gridColor = _GridColor.rgb;
+                int depth = 1;
+                for (int i = 0; i < 2; i++)
+                {
+                    int gridSize = pow(5, i + 1) + 1;
+                    if (floor(abs(pos.x) + 0.5) % gridSize == 0 || floor(abs(pos.y) + 0.5) % gridSize == 0)
+                    {
+                        depth = i + 2;
+                    }
+                }
+                gridColor *= pow(depth, 3) * _GridValue;
+                gridColor *= 1.0 / (1.0 - 50.0 * input.pos.y);
+                col += gridColor * d;
+
                 return float4(col, 0.0);
             }
             ENDHLSL
